@@ -30,9 +30,12 @@
   #dice-box-wrapper {
     position: relative;
     flex: 1;
-    background-color: #f7f1e8;
+    background-image: url("assets/wood-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     overflow: hidden;
-  }
+}
 
   #dice-box {
     position: absolute;
@@ -82,7 +85,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    color: #c9bfae;
+    color: #2b2b2b;
+    font-weight: 700;
     font-size: 18px;
     text-align: center;
     z-index: 1;
@@ -483,7 +487,7 @@
   <div id="app">
     <div id="dice-box-wrapper">
       <div id="dice-box"></div>
-      <div id="empty-message">Choose your dices and tap "Roll"</div>
+      <div id="empty-message">Choose your dices<br>and tap "Roll"</div>
       <div id="result-panel" style="display:none;">
         <div id="result-total"></div>
         <div id="result-detail"></div>
@@ -701,7 +705,7 @@
     ];
     const FRICTION_STEPS = [
       { label: "Off", value: 0 },
-      { label: "On",  value: 1 },
+      { label: "On",  value: 0.5 },
     ];
     const RESTITUTION_STEPS = [
       { label: "Off",    value: 0   },
@@ -728,7 +732,7 @@
       themeColor:     "#0070c0",
       scale:          8,
       gravity:        10,
-      friction:       1,
+      friction:       0.5,
       restitution:    0.8,
       lightIntensity: 1,
       enableShadows:  true,
@@ -749,16 +753,16 @@
           wooden: "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/wooden/"
         },
         themeColor:     diceSettings.themeColor,
-        delay:          200,
+        delay:          0,
         scale:          diceSettings.scale,
         gravity:        diceSettings.gravity,
         friction:       diceSettings.friction,
         restitution:    diceSettings.restitution,
-        throwForce:     3,
-        spinForce:      5,
+        throwForce:     8,
+        spinForce:      10,
         lightIntensity: diceSettings.lightIntensity,
         enableShadows:  diceSettings.enableShadows,
-        startingHeight: 10,
+        startingHeight: 4,
         settleTimeout:  5000,
         onRollComplete: (results) => {
           showResults(results, pendingMode, pendingModifier);
