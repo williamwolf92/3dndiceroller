@@ -56,15 +56,22 @@
     position: absolute;
     top: 12px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -150%);
     background-color: rgba(255, 255, 255, 0.85);
     border-radius: 14px;
     padding: 10px 24px;
     text-align: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     z-index: 5;
     pointer-events: none;
-    width: 70%;
+    width: 60%;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  #result-panel.show {
+    transform: translate(-50%, 0);
+    opacity: 1;
   }
 
   #result-total {
@@ -92,6 +99,33 @@
     z-index: 1;
     pointer-events: none;
   }
+
+  /* Toast central Nat. 1 / Nat. 20 */
+  #nat-toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 8px 18px;
+    transform: translate(-50%, -50%) translateY(20px);
+    font-size: 50px;
+    font-weight: 700;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    z-index: 6;
+    pointer-events: none;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  #nat-toast.show {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+
+  #nat-toast.nat-fail    { color: #b10000; }
+  #nat-toast.nat-success { color: #007f27; }
 
   /* Menú inferior */
   #control-panel {
@@ -328,7 +362,7 @@
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 18px 20px calc(env(safe-area-inset-bottom, 0px) + 20px);
+    padding: 10px 10px calc(env(safe-area-inset-bottom, 0px) + 10px);
   }
 
   /* ── Color modal ─────────────────────────────────────── */
@@ -402,84 +436,284 @@
   }
 
   /* ── Physics modal ───────────────────────────────────── */
-  .param-row {
-    margin-bottom: 22px;
+  .param-row-pair {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
   }
 
-  .param-row:last-child {
+  .param-row-pair:last-child {
     margin-bottom: 0;
   }
 
-  .param-header {
+  .param-card {
+    flex: 1;
+    min-width: 0;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px;
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 10px;
+    padding: 14px 8px;
   }
 
-  .param-label {
-    font-size: 18px;
+  .param-card-label {
+    font-size: 20px;
     font-weight: 600;
     color: #3a3a3a;
+    text-align: center;
   }
-
-  .param-value {
-    font-size: 12px;
+  
+  .param-card-value {
+    font-size: 17px;
     font-weight: 700;
     color: #5c3d1e;
     background-color: #efe7d8;
-    padding: 3px 10px;
+    padding: 4px 14px;
     border-radius: 8px;
     min-width: 72px;
     text-align: center;
-  }
-
-  .param-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    outline: none;
-    cursor: pointer;
-  }
-
-  .param-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #2b2b2b;
-    cursor: pointer;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
-  }
-
-  .param-slider::-moz-range-thumb {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: #2b2b2b;
-    cursor: pointer;
     border: none;
-    box-shadow: 0 1px 5px rgba(0,0,0,0.3);
+    font-family: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  
+  .param-card-value:active {
+    background-color: #e0d4ba;
   }
 
-  .param-ticks {
+  /* ── Skills modal ────────────────────────────────────── */
+  .skills-section {
+    margin-bottom: 15px;
+  }
+
+  .skills-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .skills-section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #5c3d1e;
+    margin-bottom: 10px;
+  }
+
+  /* Habilidades */
+  .ability-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+  }
+
+  .ability-card {
     display: flex;
-    justify-content: space-between;
-    padding: 5px 12px 0;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 10px;
+    padding: 8px 1px 7px;
   }
 
-  .param-tick {
-    font-size: 9px;
-    color: #9b8f7e;
-    text-align: center;
+  .ability-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7a6e62;
+  }
+
+  .ability-score {
+    font-size: 17px;
+    font-weight: 700;
+    color: #2b2b2b;
+    margin-top: 3px;
+  }
+
+  .ability-mod {
+    font-size: 12px;
+    color: #6b6b6b;
+    margin-top: 1px;
+    margin-bottom: 7px;
+  }
+
+  .ability-btns {
+    display: flex;
+    gap: 4px;
+  }
+
+  .ability-btn-small {
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    border: none;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    padding: 0;
+  }
+
+  .ability-btn-small:active {
+    background-color: #555555;
+  }
+
+  /* Tiradas de salvación */
+  .save-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+  }
+
+  .save-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 10px;
+    padding: 8px 2px;
+    gap: 6px;
+  }
+
+  .save-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #7a6e62;
+  }
+
+  .save-roll-btn {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 0;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .save-roll-btn:active {
+    background-color: #555555;
+  }
+
+  .save-prof-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #5c3d1e;
+  }
+
+  /* Skills */
+  .skills-columns {
+    display: flex;
+    gap: 14px;
+  }
+
+  .skills-column {
     flex: 1;
+    min-width: 0;
   }
 
-  .param-tick:first-child { text-align: left; }
-  .param-tick:last-child  { text-align: right; }
+  .skill-group {
+    margin-bottom: 14px;
+  }
+
+  .skill-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .skill-group-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #7a6e62;
+    margin-bottom: 6px;
+  }
+
+  .skill-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+
+  .skill-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .skill-btn {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 8px;
+    padding: 7px 7px;
+    cursor: pointer;
+    touch-action: manipulation;
+    text-align: left;
+  }
+
+  .skill-btn:active {
+    background-color: #efe7d8;
+  }
+
+  .skill-mod {
+    font-size: 13px;
+    font-weight: 700;
+    color: #5c3d1e;
+    min-width: 22px;
+    flex-shrink: 0;
+  }
+
+  .skill-name {
+    font-size: 12px;
+    color: #2b2b2b;
+  }
+
+  .skill-toggle {
+    width: 26px;
+    height: 22px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    border: 1px solid #c9bda8;
+    background-color: #faf6ef;
+    color: #9b8f7e;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    padding: 0;
+  }
+
+  .skill-toggle.state-p {
+    background-color: #2b2b2b;
+    color: #ffffff;
+    border-color: #2b2b2b;
+  }
+
+  .skill-toggle.state-e {
+    background-color: #5c3d1e;
+    color: #ffffff;
+    border-color: #5c3d1e;
+  }
+
+  .skill-toggle:active {
+    opacity: 0.75;
+  }
 </style>
 </head>
 <body>
@@ -487,15 +721,17 @@
     <div id="dice-box-wrapper">
       <div id="dice-box"></div>
       <div id="empty-message">Choose your dices<br>and tap "Roll"</div>
-      <div id="result-panel" style="display:none;">
+      <div id="result-panel">
         <div id="result-total"></div>
         <div id="result-detail"></div>
       </div>
+      <div id="nat-toast"></div>
 
       <!-- Floating config buttons -->
       <div id="float-buttons">
         <button class="float-btn" id="color-btn" title="Dice Color">🎨</button>
-        <button class="float-btn" id="background-btn" title="Background">🖼</button>
+        <button class="float-btn" id="skills-btn" title="Skills">⭐️</button>
+        <button class="float-btn" id="savedrolls-btn" title="Saved Rolls">🎲</button>
         <button class="float-btn" id="physics-btn" title="Physics">⚙️</button>
         <button class="float-btn" id="info-btn" title="Information">ℹ️</button>
       </div>
@@ -593,13 +829,13 @@
           <button class="color-preset" style="background:#000000" data-color="#000000" title="Negro"></button>
           <button class="color-preset" style="background:#bababa" data-color="#bababa" title="Gris"></button>
           <button class="color-preset" style="background:#ffffff" data-color="#ffffff" title="Blanco"></button>
-          <button class="color-preset" style="background:#c00000" data-color="#c00000" title="Marrón"></button>
-          <button class="color-preset" style="background:#ff0000" data-color="#ff0000" title="Rojo"></button>
-          <button class="color-preset" style="background:#ffc000" data-color="#ffc000" title="Dorado"></button>
-          <button class="color-preset" style="background:#ffff00" data-color="#ffff00" title="Amarillo"></button>
+          <button class="color-preset" style="background:#d00000" data-color="#d00000" title="Rojo"></button>
+          <button class="color-preset" style="background:#900000" data-color="#900000" title="Marrón"></button>
+          <button class="color-preset" style="background:#ca6500" data-color="#ca6500" title="Naranja Quemado"></button>
+          <button class="color-preset" style="background:#612d00" data-color="#612d00" title="Chocolate"></button>
+          <button class="color-preset" style="background:#ecec00" data-color="#ecec00" title="Amarillo"></button>
           <button class="color-preset" style="background:#00b050" data-color="#00b050" title="Verde Claro"></button>
           <button class="color-preset" style="background:#006607" data-color="#006607" title="Verde Oscuro"></button>
-          <button class="color-preset" style="background:#00b0f0" data-color="#00b0f0" title="Cyan"></button>
           <button class="color-preset" style="background:#0070c0" data-color="#0070c0" title="Azul Real"></button>
           <button class="color-preset" style="background:#002060" data-color="#002060" title="Azul Oscuro"></button>
           <button class="color-preset" style="background:#7030a0" data-color="#7030a0" title="Púrpura"></button>
@@ -618,58 +854,306 @@
       </div>
       <div class="modal-body">
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">📏 Size</span>
-            <span class="param-value" id="scale-value">Medium</span>
+        <div class="param-row-pair">
+          <div class="param-card">
+            <span class="param-card-label">📏 Size</span>
+            <button class="param-card-value" id="scale-value">Medium</button>
           </div>
-          <input type="range" class="param-slider" id="scale-slider" min="0" max="2" step="1" value="1">
-          <div class="param-ticks" id="scale-ticks"></div>
+          <div class="param-card">
+            <span class="param-card-label">🌑 Gravity</span>
+            <button class="param-card-value" id="gravity-value">Normal</button>
+          </div>
         </div>
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">🌑 Gravity</span>
-            <span class="param-value" id="gravity-value">Normal</span>
+        <div class="param-row-pair">
+          <div class="param-card">
+            <span class="param-card-label">🥌 Friction</span>
+            <button class="param-card-value" id="friction-value">On</button>
           </div>
-          <input type="range" class="param-slider" id="gravity-slider" min="0" max="2" step="1" value="2">
-          <div class="param-ticks" id="gravity-ticks"></div>
+          <div class="param-card">
+            <span class="param-card-label">🏀 Bounce</span>
+            <button class="param-card-value" id="restitution-value">Normal</button>
+          </div>
         </div>
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">🥌 Friction</span>
-            <span class="param-value" id="friction-value">On</span>
+        <div class="param-row-pair">
+          <div class="param-card">
+            <span class="param-card-label">💡 Light</span>
+            <button class="param-card-value" id="light-value">Dim</button>
           </div>
-          <input type="range" class="param-slider" id="friction-slider" min="0" max="1" step="1" value="1">
-          <div class="param-ticks" id="friction-ticks"></div>
+          <div class="param-card" id="shadow-card">
+            <span class="param-card-label">🔲 Shadow</span>
+            <button class="param-card-value" id="shadow-value">On</button>
+          </div>
         </div>
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">🏀 Bounce</span>
-            <span class="param-value" id="restitution-value">Normal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Skills Modal ────────────────────────────────────────── -->
+  <div class="modal-overlay" id="skills-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">⭐️ Skills and Proficiencies</span>
+        <button class="modal-close" data-modal="skills-modal">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Sección 1: Habilidades -->
+        <div class="skills-section">
+          <div class="skills-section-title">Abilities</div>
+          <div class="ability-grid">
+            <div class="ability-card" data-ability="STR">
+              <div class="ability-label">STR</div>
+              <div class="ability-score" id="ability-score-STR">10</div>
+              <div class="ability-mod" id="ability-mod-STR">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="STR">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="STR">+</button>
+              </div>
+            </div>
+            <div class="ability-card" data-ability="DEX">
+              <div class="ability-label">DEX</div>
+              <div class="ability-score" id="ability-score-DEX">10</div>
+              <div class="ability-mod" id="ability-mod-DEX">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="DEX">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="DEX">+</button>
+              </div>
+            </div>
+            <div class="ability-card" data-ability="CON">
+              <div class="ability-label">CON</div>
+              <div class="ability-score" id="ability-score-CON">10</div>
+              <div class="ability-mod" id="ability-mod-CON">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="CON">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="CON">+</button>
+              </div>
+            </div>
+            <div class="ability-card" data-ability="INT">
+              <div class="ability-label">INT</div>
+              <div class="ability-score" id="ability-score-INT">10</div>
+              <div class="ability-mod" id="ability-mod-INT">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="INT">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="INT">+</button>
+              </div>
+            </div>
+            <div class="ability-card" data-ability="WIS">
+              <div class="ability-label">WIS</div>
+              <div class="ability-score" id="ability-score-WIS">10</div>
+              <div class="ability-mod" id="ability-mod-WIS">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="WIS">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="WIS">+</button>
+              </div>
+            </div>
+            <div class="ability-card" data-ability="CHA">
+              <div class="ability-label">CHA</div>
+              <div class="ability-score" id="ability-score-CHA">10</div>
+              <div class="ability-mod" id="ability-mod-CHA">+0</div>
+              <div class="ability-btns">
+                <button class="ability-btn-small ability-minus" data-ability="CHA">-</button>
+                <button class="ability-btn-small ability-plus" data-ability="CHA">+</button>
+              </div>
+            </div>
           </div>
-          <input type="range" class="param-slider" id="restitution-slider" min="0" max="2" step="1" value="1">
-          <div class="param-ticks" id="restitution-ticks"></div>
         </div>
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">💡 Light</span>
-            <span class="param-value" id="light-value">Dim</span>
+        <!-- Sección 2: Tiradas de salvación -->
+        <div class="skills-section">
+          <div class="skills-section-title">Saving Throws</div>
+          <div class="save-grid">
+            <div class="save-card">
+              <div class="save-label">STR</div>
+              <button class="save-roll-btn" id="save-mod-STR" data-ability="STR">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="STR" title="Proficient">
+            </div>
+            <div class="save-card">
+              <div class="save-label">DEX</div>
+              <button class="save-roll-btn" id="save-mod-DEX" data-ability="DEX">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="DEX" title="Proficient">
+            </div>
+            <div class="save-card">
+              <div class="save-label">CON</div>
+              <button class="save-roll-btn" id="save-mod-CON" data-ability="CON">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="CON" title="Proficient">
+            </div>
+            <div class="save-card">
+              <div class="save-label">INT</div>
+              <button class="save-roll-btn" id="save-mod-INT" data-ability="INT">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="INT" title="Proficient">
+            </div>
+            <div class="save-card">
+              <div class="save-label">WIS</div>
+              <button class="save-roll-btn" id="save-mod-WIS" data-ability="WIS">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="WIS" title="Proficient">
+            </div>
+            <div class="save-card">
+              <div class="save-label">CHA</div>
+              <button class="save-roll-btn" id="save-mod-CHA" data-ability="CHA">+0</button>
+              <input type="checkbox" class="save-prof-checkbox" data-ability="CHA" title="Proficient">
+            </div>
           </div>
-          <input type="range" class="param-slider" id="light-slider" min="0" max="2" step="1" value="1">
-          <div class="param-ticks" id="light-ticks"></div>
         </div>
 
-        <div class="param-row">
-          <div class="param-header">
-            <span class="param-label">🔲 Shadow</span>
-            <span class="param-value" id="shadow-value">On</span>
+        <!-- Sección 3: Skills -->
+        <div class="skills-section">
+          <div class="skills-section-title">Skills</div>
+          <div class="skills-columns">
+
+            <div class="skills-column">
+              <div class="skill-group">
+                <div class="skill-group-title">STR</div>
+                <div class="skill-row" data-skill="athletics">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-athletics">+0</span>
+                    <span class="skill-name">Athletics</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+              </div>
+
+              <div class="skill-group">
+                <div class="skill-group-title">DEX</div>
+                <div class="skill-row" data-skill="acrobatics">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-acrobatics">+0</span>
+                    <span class="skill-name">Acrobatics</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="sleight">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-sleight">+0</span>
+                    <span class="skill-name">Sleight of Hand</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="stealth">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-stealth">+0</span>
+                    <span class="skill-name">Stealth</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+              </div>
+
+              <div class="skill-group">
+                <div class="skill-group-title">INT</div>
+                <div class="skill-row" data-skill="arcana">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-arcana">+0</span>
+                    <span class="skill-name">Arcana</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="history">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-history">+0</span>
+                    <span class="skill-name">History</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="investigation">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-investigation">+0</span>
+                    <span class="skill-name">Investigation</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="nature">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-nature">+0</span>
+                    <span class="skill-name">Nature</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="religion">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-religion">+0</span>
+                    <span class="skill-name">Religion</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="skills-column">
+              <div class="skill-group">
+                <div class="skill-group-title">WIS</div>
+                <div class="skill-row" data-skill="animal">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-animal">+0</span>
+                    <span class="skill-name">Animal Handling</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="insight">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-insight">+0</span>
+                    <span class="skill-name">Insight</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="medicine">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-medicine">+0</span>
+                    <span class="skill-name">Medicine</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="perception">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-perception">+0</span>
+                    <span class="skill-name">Perception</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="survival">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-survival">+0</span>
+                    <span class="skill-name">Survival</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+              </div>
+
+              <div class="skill-group">
+                <div class="skill-group-title">CHA</div>
+                <div class="skill-row" data-skill="deception">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-deception">+0</span>
+                    <span class="skill-name">Deception</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="intimidation">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-intimidation">+0</span>
+                    <span class="skill-name">Intimidation</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="performance">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-performance">+0</span>
+                    <span class="skill-name">Performance</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+                <div class="skill-row" data-skill="persuasion">
+                  <button class="skill-btn">
+                    <span class="skill-mod" id="skill-mod-persuasion">+0</span>
+                    <span class="skill-name">Persuasion</span>
+                  </button>
+                  <button class="skill-toggle">•</button>
+                </div>
+              </div>
+            </div>
+
           </div>
-          <input type="range" class="param-slider" id="shadow-slider" min="0" max="1" step="1" value="1">
-          <div class="param-ticks" id="shadow-ticks"></div>
         </div>
 
       </div>
@@ -683,12 +1167,59 @@
     const resultPanel     = document.getElementById("result-panel");
     const resultTotal     = document.getElementById("result-total");
     const resultDetail    = document.getElementById("result-detail");
+    const natToast        = document.getElementById("nat-toast");
     const rollBtn         = document.getElementById("roll-btn");
     const clearBtn        = document.getElementById("clear-btn");
     const d100Btn         = document.getElementById("d100-btn");
 
+    // ── Persistence (localStorage) ──────────────────────────────────────────
+    const STORAGE_KEY = "dnd-dice-roller-state-v1";
+
+    function loadSavedState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    const savedState = loadSavedState();
+
+    // Restore dice counters and modifier directly on the DOM (elements already exist)
+    if (savedState.counts) {
+      document.querySelectorAll(".die-selector[data-die]").forEach(sel => {
+        const die = sel.getAttribute("data-die");
+        if (savedState.counts[die] != null) {
+          sel.querySelector(".die-count").textContent = savedState.counts[die];
+        }
+      });
+    }
+    if (savedState.modifier != null) {
+      document.getElementById("mod-value").textContent = savedState.modifier;
+    }
+
+    function saveState() {
+      const counts = {};
+      document.querySelectorAll(".die-selector[data-die]").forEach(sel => {
+        counts[sel.getAttribute("data-die")] = parseInt(sel.querySelector(".die-count").textContent, 10);
+      });
+      const state = {
+        diceSettings,
+        abilityScores,
+        saveProficient,
+        skillProficiency,
+        counts,
+        modifier: parseInt(document.getElementById("mod-value").textContent, 10),
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (_) { /* storage unavailable, ignore */ }
+    }
+
     let pendingMode     = "normal";
     let pendingModifier = 0;
+    let pendingLabel    = "";
 
     // ── Step definitions ──────────────────────────────────────────────────────
     const SCALE_STEPS = [
@@ -726,7 +1257,7 @@
     }
 
     // ── Mutable settings ──────────────────────────────────────────────────────
-    const diceSettings = {
+    const diceSettings = Object.assign({
       themeColor:     "#002060",
       scale:          10,
       gravity:        10,
@@ -734,7 +1265,7 @@
       restitution:    0.8,
       lightIntensity: 1.5,
       enableShadows:  true,
-    };
+    }, savedState.diceSettings || {});
 
     let settingsChanged = false;
 
@@ -761,11 +1292,11 @@
         gravity:        diceSettings.gravity,
         friction:       diceSettings.friction,
         restitution:    diceSettings.restitution,
-        throwForce:     10,
+        throwForce:     5,
         spinForce:      5,
         lightIntensity: diceSettings.lightIntensity,
         enableShadows:  diceSettings.enableShadows,
-        startingHeight: 4,
+        startingHeight: 10,
         settleTimeout:  5000,
         onRollComplete: (results) => {
           showResults(results, pendingMode, pendingModifier);
@@ -796,7 +1327,8 @@
     function closeModal(id) {
       document.getElementById(id).classList.remove("open");
       if (settingsChanged) {
-        resultPanel.style.display  = "none";
+        resultPanel.classList.remove("show");
+        natToast.classList.remove("show");
         emptyMessage.style.display = "block";
         reinitDiceBox();
       }
@@ -814,6 +1346,7 @@
 
     document.getElementById("color-btn").addEventListener("click",   () => openModal("color-modal"));
     document.getElementById("physics-btn").addEventListener("click", () => openModal("physics-modal"));
+    document.getElementById("skills-btn").addEventListener("click",  () => openModal("skills-modal"));
 
     // ── Color picker ──────────────────────────────────────────────────────────
     const colorPicker   = document.getElementById("color-picker");
@@ -831,62 +1364,199 @@
       });
     }
 
-    colorPicker.addEventListener("input", e => applyColor(e.target.value));
+    colorPicker.addEventListener("input", e => { applyColor(e.target.value); saveState(); });
 
     document.querySelectorAll(".color-preset").forEach(btn => {
-      btn.addEventListener("click", () => applyColor(btn.dataset.color));
+      btn.addEventListener("click", () => { applyColor(btn.dataset.color); saveState(); });
     });
 
     // Seed UI with current color, then reset dirty flag
     applyColor(diceSettings.themeColor);
     settingsChanged = false;
 
-    // ── Slider fill helper ────────────────────────────────────────────────────
-    function updateSliderFill(slider) {
-      const pct = (slider.value - slider.min) / (slider.max - slider.min) * 100;
-      slider.style.background =
-        `linear-gradient(to right, #2b2b2b 0%, #2b2b2b ${pct}%, #e8e0d4 ${pct}%, #e8e0d4 100%)`;
-    }
-
-    // ── Physics sliders ───────────────────────────────────────────────────────
-    function setupSlider(sliderId, valueLabelId, ticksId, steps, getter, setter) {
-      const slider         = document.getElementById(sliderId);
-      const valueLabel     = document.getElementById(valueLabelId);
-      const ticksContainer = document.getElementById(ticksId);
-
-      steps.forEach(step => {
-        const span       = document.createElement("span");
-        span.className   = "param-tick";
-        span.textContent = step.label;
-        ticksContainer.appendChild(span);
-      });
-
-      const idx      = findStepIndex(steps, getter());
-      slider.value   = idx;
+    // ── Physics param cards (cycle through steps on tap) ────────────────────────
+    function setupParamCard(cardId, valueLabelId, steps, getter, setter) {
+      const valueLabel = document.getElementById(valueLabelId);
+      
+      let idx = findStepIndex(steps, getter());
       valueLabel.textContent = steps[idx].label;
-      updateSliderFill(slider);
-
-      slider.addEventListener("input", e => {
-        const i = parseInt(e.target.value, 10);
-        valueLabel.textContent = steps[i].label;
-        setter(steps[i].value);
-        updateSliderFill(slider);
+      
+      valueLabel.addEventListener("click", () => {
+        idx = (idx + 1) % steps.length;
+        valueLabel.textContent = steps[idx].label;
+        setter(steps[idx].value);
         settingsChanged = true;
+        saveState();
       });
     }
 
-    setupSlider("scale-slider",       "scale-value",       "scale-ticks",       SCALE_STEPS,
+    setupParamCard("scale-card",       "scale-value",       SCALE_STEPS,
       () => diceSettings.scale,          v => { diceSettings.scale          = v; });
-    setupSlider("gravity-slider",     "gravity-value",     "gravity-ticks",     GRAVITY_STEPS,
+    setupParamCard("gravity-card",     "gravity-value",     GRAVITY_STEPS,
       () => diceSettings.gravity,        v => { diceSettings.gravity        = v; });
-    setupSlider("friction-slider",    "friction-value",    "friction-ticks",    FRICTION_STEPS,
+    setupParamCard("friction-card",    "friction-value",    FRICTION_STEPS,
       () => diceSettings.friction,       v => { diceSettings.friction       = v; });
-    setupSlider("restitution-slider", "restitution-value", "restitution-ticks", RESTITUTION_STEPS,
+    setupParamCard("restitution-card", "restitution-value", RESTITUTION_STEPS,
       () => diceSettings.restitution,    v => { diceSettings.restitution    = v; });
-    setupSlider("light-slider",       "light-value",       "light-ticks",       LIGHT_STEPS,
+    setupParamCard("light-card",       "light-value",       LIGHT_STEPS,
       () => diceSettings.lightIntensity, v => { diceSettings.lightIntensity = v; });
-    setupSlider("shadow-slider",      "shadow-value",      "shadow-ticks",      SHADOW_STEPS,
+    setupParamCard("shadow-card",      "shadow-value",       SHADOW_STEPS,
       () => diceSettings.enableShadows,  v => { diceSettings.enableShadows  = v; });
+
+    // ── Skills modal: labeled d20 roll (saving throws / skill checks) ──────────
+    function rollWithLabel(label, modifier) {
+      if (!ready) return;
+      pendingMode     = "labeled";
+      pendingModifier = modifier;
+      pendingLabel    = label;
+
+      emptyMessage.style.display = "none";
+      resultPanel.classList.remove("show");
+      natToast.classList.remove("show");
+      diceBox.clear();
+      diceBox.roll([{ qty: 1, sides: 20 }]);
+    }
+
+    // ── Skills modal: data ───────────────────────────────────────────────────
+    const ABILITIES = ["STR", "DEX", "CON", "INT", "WIS", "CHA"];
+
+    const abilityScores = Object.assign({ STR: 10, DEX: 10, CON: 10, INT: 10, WIS: 10, CHA: 10 }, savedState.abilityScores || {});
+    const saveProficient = Object.assign({ STR: false, DEX: false, CON: false, INT: false, WIS: false, CHA: false }, savedState.saveProficient || {});
+
+    const SKILLS = [
+      { id: "athletics",     name: "Athletics",       ability: "STR" },
+      { id: "acrobatics",    name: "Acrobatics",      ability: "DEX" },
+      { id: "sleight",       name: "Sleight of Hand", ability: "DEX" },
+      { id: "stealth",       name: "Stealth",         ability: "DEX" },
+      { id: "arcana",        name: "Arcana",          ability: "INT" },
+      { id: "history",       name: "History",         ability: "INT" },
+      { id: "investigation", name: "Investigation",   ability: "INT" },
+      { id: "nature",        name: "Nature",          ability: "INT" },
+      { id: "religion",      name: "Religion",        ability: "INT" },
+      { id: "animal",        name: "Animal Handling", ability: "WIS" },
+      { id: "insight",       name: "Insight",         ability: "WIS" },
+      { id: "medicine",      name: "Medicine",        ability: "WIS" },
+      { id: "perception",    name: "Perception",      ability: "WIS" },
+      { id: "survival",      name: "Survival",        ability: "WIS" },
+      { id: "deception",     name: "Deception",       ability: "CHA" },
+      { id: "intimidation",  name: "Intimidation",    ability: "CHA" },
+      { id: "performance",   name: "Performance",     ability: "CHA" },
+      { id: "persuasion",    name: "Persuasion",      ability: "CHA" },
+    ];
+
+    const skillProficiency = {}; // id -> null | "P" | "E"
+    SKILLS.forEach(s => { skillProficiency[s.id] = null; });
+    Object.assign(skillProficiency, savedState.skillProficiency || {});
+
+    function getAbilityMod(ability) {
+      return Math.floor((abilityScores[ability] - 10) / 2);
+    }
+
+    function formatMod(mod) {
+      return mod >= 0 ? `+${mod}` : `${mod}`;
+    }
+
+    function renderAbility(ability) {
+      document.getElementById(`ability-score-${ability}`).textContent = abilityScores[ability];
+      document.getElementById(`ability-mod-${ability}`).textContent   = formatMod(getAbilityMod(ability));
+      renderSave(ability);
+      SKILLS.filter(s => s.ability === ability).forEach(s => renderSkill(s.id));
+    }
+
+    function renderSave(ability) {
+      const mod = getAbilityMod(ability) + (saveProficient[ability] ? 3 : 0);
+      document.getElementById(`save-mod-${ability}`).textContent = formatMod(mod);
+    }
+
+    function renderSkill(skillId) {
+      const skill = SKILLS.find(s => s.id === skillId);
+      const bonus = skillProficiency[skillId] === "P" ? 3 : skillProficiency[skillId] === "E" ? 6 : 0;
+      const mod   = getAbilityMod(skill.ability) + bonus;
+      document.getElementById(`skill-mod-${skillId}`).textContent = formatMod(mod);
+    }
+
+    function updateSkillToggleUI(skillId) {
+      const row = document.querySelector(`.skill-row[data-skill="${skillId}"]`);
+      const btn = row.querySelector(".skill-toggle");
+      const state = skillProficiency[skillId]; // null | "P" | "E"
+      btn.textContent = state || "•";
+      btn.classList.remove("state-p", "state-e");
+      if (state === "P") btn.classList.add("state-p");
+      if (state === "E") btn.classList.add("state-e");
+    }
+
+    // Initial render
+    ABILITIES.forEach(renderAbility);
+    SKILLS.forEach(s => updateSkillToggleUI(s.id));
+
+    // Ability +/- buttons
+    document.querySelectorAll(".ability-minus").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const ability = btn.dataset.ability;
+        if (abilityScores[ability] > 8) {
+          abilityScores[ability]--;
+          renderAbility(ability);
+          saveState();
+        }
+      });
+    });
+
+    document.querySelectorAll(".ability-plus").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const ability = btn.dataset.ability;
+        if (abilityScores[ability] < 30) {
+          abilityScores[ability]++;
+          renderAbility(ability);
+          saveState();
+        }
+      });
+    });
+
+    // Saving throw proficiency checkboxes
+    document.querySelectorAll(".save-prof-checkbox").forEach(chk => {
+      chk.checked = !!saveProficient[chk.dataset.ability];
+      chk.addEventListener("change", () => {
+        const ability = chk.dataset.ability;
+        saveProficient[ability] = chk.checked;
+        renderSave(ability);
+        saveState();
+      });
+    });
+
+    // Saving throw roll buttons
+    document.querySelectorAll(".save-roll-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const ability = btn.dataset.ability;
+        const mod     = getAbilityMod(ability) + (saveProficient[ability] ? 3 : 0);
+        closeModal("skills-modal");
+        rollWithLabel(`Saving Throw (${ability})`, mod);
+      });
+    });
+
+    // Skill proficiency toggle (single button, cycles • → P → E → •)
+    const SKILL_CYCLE = [null, "P", "E"];
+    document.querySelectorAll(".skill-toggle").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const skillId = btn.closest(".skill-row").dataset.skill;
+        const idx     = SKILL_CYCLE.indexOf(skillProficiency[skillId]);
+        skillProficiency[skillId] = SKILL_CYCLE[(idx + 1) % SKILL_CYCLE.length];
+        updateSkillToggleUI(skillId);
+        renderSkill(skillId);
+        saveState();
+      });
+    });
+
+    // Skill roll buttons
+    document.querySelectorAll(".skill-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const skillId = btn.closest(".skill-row").dataset.skill;
+        const skill   = SKILLS.find(s => s.id === skillId);
+        const bonus   = skillProficiency[skillId] === "P" ? 3 : skillProficiency[skillId] === "E" ? 6 : 0;
+        const mod     = getAbilityMod(skill.ability) + bonus;
+        closeModal("skills-modal");
+        rollWithLabel(`${skill.name} check`, mod);
+      });
+    });
 
     // ── Modifier ──────────────────────────────────────────────────────────────
     const modValueEl      = document.getElementById("mod-value");
@@ -897,9 +1567,11 @@
 
     modMinusBtn.addEventListener("click", () => {
       modValueEl.textContent = parseInt(modValueEl.textContent, 10) - 1;
+      saveState();
     });
     modPlusBtn.addEventListener("click", () => {
       modValueEl.textContent = parseInt(modValueEl.textContent, 10) + 1;
+      saveState();
     });
 
     function getModifier() {
@@ -925,6 +1597,26 @@
     }
 
     // ── Results ───────────────────────────────────────────────────────────────
+    let natToastTimer = null;
+    
+    function updateNatToast(value) {
+      clearTimeout(natToastTimer);
+    natToast.classList.remove("show", "nat-fail", "nat-success");
+      if (value === 1) {
+        natToast.textContent = "Nat. 1";
+        natToast.classList.add("show", "nat-fail");
+      } else if (value === 20) {
+        natToast.textContent = "Nat. 20";
+        natToast.classList.add("show", "nat-success");
+      } else {
+        natToast.textContent = "";
+        return;
+      }
+      natToastTimer = setTimeout(() => {
+        natToast.classList.remove("show");
+      }, 3000);
+    }
+
     function showResults(results, mode, modifier) {
       let total = 0;
       const groups = {};
@@ -938,13 +1630,27 @@
       });
 
       let detailParts;
+      let natValue = null;
 
       if (mode === "advantage" || mode === "disadvantage") {
         const values = groups[20] || [];
         const chosen = mode === "advantage" ? Math.max(...values) : Math.min(...values);
         total        = chosen + modifier;
+        natValue     = chosen;
         const label  = mode === "advantage" ? "Advantage" : "Disadvantage";
-        detailParts  = [`${label}: ${values.join("/")} »» ${chosen}`];
+        let line     = `${label}: ${values.join("/")} — ${chosen}`;
+        if (modifier !== 0) {
+          const sign = modifier > 0 ? "+" : "";
+          line += ` (${sign}${modifier})`;
+        }
+        detailParts = [line];
+      } else if (mode === "labeled") {
+        const values  = groups[20] || [];
+        const rolled   = values[0] ?? 0;
+        total          = rolled + modifier;
+        natValue       = rolled;
+        const sign     = modifier >= 0 ? "+" : "";
+        detailParts    = [`${pendingLabel}: ${rolled} (${sign}${modifier})`];
       } else if (mode === "percentile") {
         const d100Values = groups[100] || [];
         const value      = (d100Values[0] === 0) ? 100 : (d100Values[0] ?? 100);
@@ -966,11 +1672,15 @@
           const sign = modifier > 0 ? "+" : "";
           detailParts.push(`Mod: ${sign}${modifier}`);
         }
+        if (groups[20] && groups[20].length === 1) {
+          natValue = groups[20][0];
+        }
       }
 
       resultTotal.textContent  = `Total: ${total}`;
       resultDetail.textContent = detailParts.join("   |   ");
-      resultPanel.style.display = "block";
+      resultPanel.classList.add("show");
+      updateNatToast(natValue);
     }
 
     // ── Roll ──────────────────────────────────────────────────────────────────
@@ -980,7 +1690,8 @@
       pendingModifier = getModifier();
 
       emptyMessage.style.display = "none";
-      resultPanel.style.display  = "none";
+      resultPanel.classList.remove("show");
+      natToast.classList.remove("show");
       diceBox.clear();
       diceBox.roll(notation);
     }
@@ -995,11 +1706,13 @@
         let val = parseInt(countEl.textContent, 10);
         if (val < 10) val++;
         countEl.textContent = val;
+        saveState();
       });
       minusBtn.addEventListener("click", () => {
         let val = parseInt(countEl.textContent, 10);
         if (val > 0) val--;
         countEl.textContent = val;
+        saveState();
       });
     });
 
@@ -1026,10 +1739,12 @@
     clearBtn.addEventListener("click", () => {
       if (!ready) return;
       diceBox.clear();
-      resultPanel.style.display  = "none";
+      resultPanel.classList.remove("show");
+      natToast.classList.remove("show");
       emptyMessage.style.display = "block";
       document.querySelectorAll(".die-count").forEach(el => { el.textContent = "0"; });
       modValueEl.textContent = "0";
+      saveState();
     });
   </script>
 </body>
