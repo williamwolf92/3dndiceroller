@@ -345,8 +345,8 @@
   /* ── Floating config buttons ─────────────────────────── */
   #float-buttons {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 10px;
+    right: 10px;
     z-index: 10;
     display: flex;
     flex-direction: column;
@@ -357,7 +357,7 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    border: 2px solid #3a3a3a;
+    border: 1.5px solid #3a3a3a;
     background-color: rgba(255, 255, 255, 0.88);
     box-shadow: 0 5px 5px rgba(0,0,0,0.7);
     font-size: 18px;
@@ -785,6 +785,217 @@
 
   .skill-toggle:active {
     opacity: 0.75;
+  }
+
+  /* ── Custom Rolls Modal ──────────────────────────────────── */
+  #cr-add-section {
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 14px;
+  }
+
+  #cr-name-input {
+    width: 100%;
+    border: 1px solid #c9bda8;
+    border-radius: 8px;
+    background-color: #faf6ef;
+    color: #2b2b2b;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 8px 10px;
+    margin-bottom: 10px;
+    font-family: Georgia;
+    box-sizing: border-box;
+  }
+
+  #cr-name-input::placeholder {
+    color: #b0a090;
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  #cr-name-input:focus {
+    outline: none;
+    border-color: #5c3d1e;
+  }
+
+  #cr-dice-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+
+  .cr-die-sel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background-color: #faf6ef;
+    border-radius: 10px;
+    padding: 5px 4px;
+    border: 1px solid #3a3a3a;
+  }
+
+  .cr-die-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3a3a3a;
+  }
+
+  .cr-die-counter {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .cr-counter-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .cr-counter-btn:active {
+    background-color: #555555;
+  }
+  
+  .cr-die-count {
+    font-size: 16px;
+    font-weight: 700;
+    color: #2b2b2b;
+    text-align: center;
+  }
+
+  #cr-mod-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  #cr-mod-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #3a3a3a;
+    flex: 1;
+  }
+
+  #cr-add-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    touch-action: manipulation;
+    font-family: Georgia;
+  }
+
+  #cr-add-btn:active {
+    background-color: #444444;
+  }
+
+  #cr-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  #cr-empty-msg {
+    text-align: center;
+    color: #b0a090;
+    font-style: italic;
+    font-size: 14px;
+    padding: 12px 0;
+  }
+
+  .cr-roll-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #ffffff;
+    border: 1px solid #e6ddcf;
+    border-radius: 10px;
+    padding: 10px 10px;
+  }
+
+  .cr-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cr-roll-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2b2b2b;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cr-roll-sub {
+    font-size: 11px;
+    color: #7a6e62;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cr-launch-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background-color: #2b2b2b;
+    color: #ffffff;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    flex-shrink: 0;
+  }
+
+  .cr-launch-btn:active {
+    background-color: #444444;
+  }
+
+  .cr-delete-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: none;
+    background-color: #b10000;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    flex-shrink: 0;
+  }
+
+  .cr-delete-btn:active {
+    background-color: #cc0000;
   }
 </style>
 </head>
@@ -1243,6 +1454,82 @@
     </div>
   </div>
 
+  <!-- ── Custom Rolls Modal ────────────────────────────────────── -->
+  <div class="modal-overlay" id="customrolls-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">🎲 Custom Rolls</span>
+        <button class="modal-close" data-modal="customrolls-modal">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <div id="cr-add-section">
+          <input type="text" id="cr-name-input" placeholder="Roll name…" maxlength="40">
+          <div id="cr-dice-grid">
+            <div class="cr-die-sel" data-die="4">
+              <div class="cr-die-label">d4</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+            <div class="cr-die-sel" data-die="6">
+              <div class="cr-die-label">d6</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+            <div class="cr-die-sel" data-die="8">
+              <div class="cr-die-label">d8</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+            <div class="cr-die-sel" data-die="10">
+              <div class="cr-die-label">d10</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+            <div class="cr-die-sel" data-die="12">
+              <div class="cr-die-label">d12</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+            <div class="cr-die-sel" data-die="20">
+              <div class="cr-die-label">d20</div>
+              <div class="cr-die-count">0</div>
+              <div class="cr-die-counter">
+                <button class="cr-counter-btn cr-minus">−</button>
+                <button class="cr-counter-btn cr-plus">+</button>
+              </div>
+            </div>
+          </div>
+          <div id="cr-mod-row">
+            <span id="cr-mod-label">Modifier</span>
+            <button class="cr-counter-btn" id="cr-mod-minus">−</button>
+            <div class="cr-die-count" id="cr-mod-value">0</div>
+            <button class="cr-counter-btn" id="cr-mod-plus">+</button>
+          </div>
+          <button id="cr-add-btn">+ Add Roll</button>
+        </div>
+
+        <div id="cr-list"></div>
+
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import DiceBox from "https://unpkg.com/@3d-dice/dice-box@1.1.4/dist/dice-box.es.min.js";
 
@@ -1292,6 +1579,7 @@
         abilityScores,
         saveProficient,
         skillProficiency,
+        customRolls,
         counts,
         modifier: parseInt(document.getElementById("mod-value").textContent, 10),
       };
@@ -1427,9 +1715,13 @@
       btn.addEventListener("click", () => closeModal(btn.dataset.modal));
     });
 
-    document.getElementById("color-btn").addEventListener("click",   () => openModal("color-modal"));
-    document.getElementById("physics-btn").addEventListener("click", () => openModal("physics-modal"));
-    document.getElementById("skills-btn").addEventListener("click",  () => openModal("skills-modal"));
+    document.getElementById("color-btn").addEventListener("click",       () => openModal("color-modal"));
+    document.getElementById("physics-btn").addEventListener("click",     () => openModal("physics-modal"));
+    document.getElementById("skills-btn").addEventListener("click",      () => openModal("skills-modal"));
+    document.getElementById("savedrolls-btn").addEventListener("click",  () => {
+      renderCustomRolls();
+      openModal("customrolls-modal");
+    });
 
     // ── Color picker ──────────────────────────────────────────────────────────
     const colorPicker   = document.getElementById("color-picker");
@@ -1739,7 +2031,7 @@
         total        = chosen + modifier;
         natValue     = chosen;
         const label  = mode === "advantage" ? "Advantage" : "Disadvantage";
-        let line     = `${label}: ${values.join("/")} — ${chosen}`;
+        let line     = `${label}: ${values.join("/")} – ${chosen}`;
         if (modifier !== 0) {
           const sign = modifier > 0 ? "+" : "";
           line += ` (${sign}${modifier})`;
@@ -1759,7 +2051,7 @@
         natValue = chosen;
         const tag  = mode === "labeled-advantage" ? "Adv" : "Dis";
         const sign = modifier >= 0 ? "+" : "";
-        detailParts = [`${pendingLabel} [${tag}]: ${values.join("/")} — ${chosen} (${sign}${modifier})`];
+        detailParts = [`${pendingLabel} [${tag}]: ${values.join("/")} – ${chosen} (${sign}${modifier})`];
       } else if (mode === "percentile") {
         const d100Values = groups[100] || [];
         const value      = (d100Values[0] === 0) ? 100 : (d100Values[0] ?? 100);
@@ -1853,6 +2145,116 @@
       emptyMessage.style.display = "block";
       document.querySelectorAll(".die-count").forEach(el => { el.textContent = "0"; });
       modValueEl.textContent = "0";
+      saveState();
+    });
+
+    // ── Custom Rolls ──────────────────────────────────────────────────────────
+    let customRolls = Array.isArray(savedState.customRolls) ? savedState.customRolls : [];
+
+    function crGetCounts() {
+      const counts = {};
+      document.querySelectorAll("#cr-dice-grid .cr-die-sel[data-die]").forEach(sel => {
+        const die   = sel.getAttribute("data-die");
+        const count = parseInt(sel.querySelector(".cr-die-count").textContent, 10);
+        if (count > 0) counts[die] = count;
+      });
+      return counts;
+    }
+
+    function crDescribe(counts, modifier) {
+      const parts = Object.keys(counts)
+        .sort((a, b) => +a - +b)
+        .map(d => `${counts[d]}d${d}`);
+      if (modifier > 0)  parts.push(`+${modifier}`);
+      if (modifier < 0)  parts.push(`${modifier}`);
+      return parts.join(" ") || "–";
+    }
+
+    function renderCustomRolls() {
+      const list = document.getElementById("cr-list");
+      list.innerHTML = "";
+      if (customRolls.length === 0) {
+        list.innerHTML = '<div id="cr-empty-msg">No custom rolls yet.</div>';
+        return;
+      }
+      customRolls.forEach((roll, idx) => {
+        const item = document.createElement("div");
+        item.className = "cr-roll-item";
+        const desc = crDescribe(roll.counts, roll.modifier);
+        item.innerHTML = `
+          <div class="cr-info">
+            <div class="cr-roll-name">${roll.name}</div>
+            <div class="cr-roll-sub">${desc}</div>
+          </div>
+          <button class="cr-launch-btn" data-idx="${idx}">🎲</button>
+          <button class="cr-delete-btn" data-idx="${idx}">✕</button>
+        `;
+        list.appendChild(item);
+      });
+
+      list.querySelectorAll(".cr-launch-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const roll     = customRolls[+btn.dataset.idx];
+          if (!roll || !ready) return;
+          const notation = buildNotation(roll.counts);
+          if (notation.length === 0) return;
+          closeModal("customrolls-modal");
+          pendingMode     = "normal";
+          pendingModifier = roll.modifier;
+          emptyMessage.style.display = "none";
+          resultPanel.classList.remove("show");
+          natToast.classList.remove("show");
+          diceBox.clear();
+          diceBox.roll(notation);
+        });
+      });
+
+      list.querySelectorAll(".cr-delete-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          customRolls.splice(+btn.dataset.idx, 1);
+          renderCustomRolls();
+          saveState();
+        });
+      });
+    }
+
+    // cr dice counter buttons
+    document.querySelectorAll("#cr-dice-grid .cr-die-sel").forEach(sel => {
+      const countEl  = sel.querySelector(".cr-die-count");
+      sel.querySelector(".cr-minus").addEventListener("click", () => {
+        const v = parseInt(countEl.textContent, 10);
+        if (v > 0) countEl.textContent = v - 1;
+      });
+      sel.querySelector(".cr-plus").addEventListener("click", () => {
+        const v = parseInt(countEl.textContent, 10);
+        if (v < 10) countEl.textContent = v + 1;
+      });
+    });
+
+    // cr modifier buttons
+    document.getElementById("cr-mod-minus").addEventListener("click", () => {
+      const el = document.getElementById("cr-mod-value");
+      el.textContent = parseInt(el.textContent, 10) - 1;
+    });
+    document.getElementById("cr-mod-plus").addEventListener("click", () => {
+      const el = document.getElementById("cr-mod-value");
+      el.textContent = parseInt(el.textContent, 10) + 1;
+    });
+
+    // cr add button
+    document.getElementById("cr-add-btn").addEventListener("click", () => {
+      const nameInput = document.getElementById("cr-name-input");
+      const name      = nameInput.value.trim();
+      const counts    = crGetCounts();
+      const modifier  = parseInt(document.getElementById("cr-mod-value").textContent, 10);
+      if (!name) { nameInput.focus(); return; }
+      if (Object.keys(counts).length === 0) return;
+      customRolls.push({ name, counts, modifier });
+      // reset form
+      nameInput.value = "";
+      document.querySelectorAll("#cr-dice-grid .cr-die-count").forEach(el => { el.textContent = "0"; });
+      document.getElementById("cr-mod-value").textContent = "0";
+      renderCustomRolls();
       saveState();
     });
   </script>
