@@ -447,6 +447,14 @@
   }
 
   /* ── Color modal ─────────────────────────────────────── */
+  #color-section-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #7a6e62;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
   #color-swatch-wrapper {
     display: flex;
     flex-direction: column;
@@ -511,6 +519,61 @@
   .color-preset.active {
     border-color: #2b2b2b;
     box-shadow: 0 0 0 2px #faf6ef, 0 0 0 4px #2b2b2b;
+  }
+
+  /* ── Gem themes section ──────────────────────────────── */
+  #gem-themes-divider {
+    border: none;
+    border-top: 1px solid #e6ddcf;
+    margin: 18px 0 14px;
+  }
+
+  #gem-themes-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #7a6e62;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+
+  #gem-themes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .gem-theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid #e6ddcf;
+    background-color: #ffffff;
+    color: #2b2b2b;
+    font-size: 14px;
+    font-weight: 700;
+    touch-action: manipulation;
+    font-family: Georgia;
+    transition: border-color 0.12s, box-shadow 0.12s;
+  }
+
+  .gem-theme-btn:active {
+    background-color: #efe7d8;
+  }
+
+  .gem-theme-btn.active {
+    border-color: #2b2b2b;
+    box-shadow: 0 0 0 2px #faf6ef, 0 0 0 4px #2b2b2b;
+    background-color: #faf6ef;
+  }
+
+  .gem-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
   }
 
   /* ── Physics modal ───────────────────────────────────── */
@@ -1112,6 +1175,7 @@
         <button class="modal-close" data-modal="color-modal">✕</button>
       </div>
       <div class="modal-body">
+        <div id="color-section-label">Custom Color</div>
         <div id="color-swatch-wrapper">
           <div id="color-swatch-label-wrap">
             <div id="color-swatch"></div>
@@ -1134,6 +1198,39 @@
           <button class="color-preset" style="background:#002060" data-color="#002060" title="Azul Oscuro"></button>
           <button class="color-preset" style="background:#7030a0" data-color="#7030a0" title="Púrpura"></button>
           <button class="color-preset" style="background:#b500b2" data-color="#b500b2" title="Magenta Oscuro"></button>
+        </div>
+
+        <hr id="gem-themes-divider">
+        <div id="gem-themes-label">Gem Themes</div>
+        <div id="gem-themes-grid">
+          <button class="gem-theme-btn" data-theme="amber">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #ffe066, #c47a00)"></div>
+            Amber
+          </button>
+          <button class="gem-theme-btn" data-theme="amethyst">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #d09fff, #6b1ea0)"></div>
+            Amethyst
+          </button>
+          <button class="gem-theme-btn" data-theme="aquamarine">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #7ffff0, #007a6e)"></div>
+            Aquamarine
+          </button>
+          <button class="gem-theme-btn" data-theme="emerald">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #7dfa9a, #006b25)"></div>
+            Emerald
+          </button>
+          <button class="gem-theme-btn" data-theme="onyx">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #6b6b6b, #111111)"></div>
+            Onyx
+          </button>
+          <button class="gem-theme-btn" data-theme="ruby">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #ff7070, #8b0000)"></div>
+            Ruby
+          </button>
+          <button class="gem-theme-btn" data-theme="zapphire">
+            <div class="gem-dot" style="background:radial-gradient(circle at 35% 35%, #7ab8ff, #001a7a)"></div>
+            Zapphire
+          </button>
         </div>
       </div>
     </div>
@@ -1630,6 +1727,7 @@
     // ── Mutable settings ──────────────────────────────────────────────────────
     const diceSettings = Object.assign({
       themeColor:     "#002060",
+      theme:          "smooth",
       scale:          10,
       gravity:        10,
       friction:       1,
@@ -1646,12 +1744,12 @@
         container: "#dice-box",
         assetPath: "assets/",
         origin:    "https://unpkg.com/@3d-dice/dice-box@1.1.4/dist/",
-        theme:     "smooth",
+        theme:     diceSettings.theme || "smooth",
         externalThemes: {
-          ambar:      "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/ambar/",
+          amber:      "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/amber/",
           amethyst:   "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/amethyst/",
+         aquamarine: "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/aquamarine",
           emerald:    "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/emerald/",
-          multicolor: "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/multicolor/",
           onyx:       "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/onyx/",
           ruby:       "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/ruby/",
           smooth:     "https://cdn.jsdelivr.net/gh/williamwolf92/3dndicesimulator@main/themes/smooth/",
@@ -1664,10 +1762,10 @@
         friction:       diceSettings.friction,
         restitution:    diceSettings.restitution,
         throwForce:     5,
-        spinForce:      5,
+        spinForce:      10,
         lightIntensity: diceSettings.lightIntensity,
         enableShadows:  diceSettings.enableShadows,
-        startingHeight: 10,
+        startingHeight: 15,
         settleTimeout:  5000,
         onRollComplete: (results) => {
           showResults(results, pendingMode, pendingModifier);
@@ -1728,7 +1826,10 @@
     const colorSwatch   = document.getElementById("color-swatch");
     const colorHexLabel = document.getElementById("color-hex-label");
 
-    function applyColor(hex) {
+    function applyColor(hex, fromLoad = false) {
+      if (!fromLoad) {
+        diceSettings.theme = "smooth";
+      }
       diceSettings.themeColor            = hex;
       colorPicker.value                  = hex;
       colorSwatch.style.backgroundColor  = hex;
@@ -1737,6 +1838,19 @@
       document.querySelectorAll(".color-preset").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.color.toLowerCase() === hex.toLowerCase());
       });
+      if (!fromLoad) {
+        document.querySelectorAll(".gem-theme-btn").forEach(btn => btn.classList.remove("active"));
+      }
+    }
+
+    function applyGemTheme(themeName) {
+      diceSettings.theme = themeName;
+      settingsChanged    = true;
+      document.querySelectorAll(".color-preset").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".gem-theme-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.theme === themeName);
+      });
+      saveState();
     }
 
     colorPicker.addEventListener("input", e => { applyColor(e.target.value); saveState(); });
@@ -1745,8 +1859,18 @@
       btn.addEventListener("click", () => { applyColor(btn.dataset.color); saveState(); });
     });
 
-    // Seed UI with current color, then reset dirty flag
-    applyColor(diceSettings.themeColor);
+    document.querySelectorAll(".gem-theme-btn").forEach(btn => {
+      btn.addEventListener("click", () => applyGemTheme(btn.dataset.theme));
+    });
+
+    // Seed UI with current color, then restore gem theme if applicable, then reset dirty flag
+    applyColor(diceSettings.themeColor, true);
+    if (diceSettings.theme && diceSettings.theme !== "smooth") {
+      document.querySelectorAll(".color-preset").forEach(btn => btn.classList.remove("active"));
+      document.querySelectorAll(".gem-theme-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.theme === diceSettings.theme);
+      });
+    }
     settingsChanged = false;
 
     // ── Physics param cards (cycle through steps on tap) ────────────────────────
@@ -2073,7 +2197,7 @@
           const sign = modifier > 0 ? "+" : "";
           detailParts.push(`Mod: ${sign}${modifier}`);
         }
-        if (groups[20] && groups[20].length === 1) {
+        if (groups[20] && groups[20].length === 1 && Object.keys(groups).length === 1) {
           natValue = groups[20][0];
         }
       }
