@@ -31,7 +31,7 @@ A physics-based 3D dice roller built for **Dungeons & Dragons 5e**, running enti
 - Wood-texture tabletop background
 
 ### Persistence
-- All state (dice counts, modifier, ability scores, proficiencies, custom rolls, physics settings, dice color) is automatically saved to **localStorage** and restored on next visit
+- All state (dice counts, modifier, ability scores, proficiencies, custom rolls, physics settings, dice themes) is automatically saved to **localStorage** and restored on next visit
 
 ---
 
