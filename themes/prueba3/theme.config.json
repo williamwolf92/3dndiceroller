@@ -8,8 +8,7 @@
   "material": {
     "type": "standard",
     "diffuseTexture": "diffuse.jpg",
-    "bumpTexture": "normal.png",
-    "specularTexture": "roughness.jpg",
+    "specularTexture": "roughness.png",
     "diffuseLevel": 1,
     "bumpLevel": 0.5,
     "specularPower": 1
