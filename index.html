@@ -1,9 +1,47 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-<title>3D&Dice Roller</title>
+<title>3D Dungeons &amp; Dragons Dice Roller</title>
+
+<!-- SEO & Discovery -->
+<meta name="description" content="3D&amp;Dice Roller: a free browser-based 3D dice simulator for D&amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics. Supports advantage, disadvantage, skills, saving throws and custom rolls.">
+<meta name="keywords" content="D&D dice roller, 3D dice, tabletop RPG, dungeons and dragons, d20, dice simulator, TTRPG, dice physics, dice box, online dice, RPG tools, 3d20, percentile dice">
+<meta name="author" content="williamwolf92">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#5c3d1e">
+<link rel="canonical" href="https://williamwolf92.github.io/3dndiceroller/">
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://williamwolf92.github.io/3dndiceroller/">
+<meta property="og:title" content="3D Dungeons &amp; Dragons Dice Roller">
+<meta property="og:description" content="Roll any TTRPG die in 3D with realistic physics. Supports d4 through d100, advantage/disadvantage, skills, saving throws and custom roll presets.">
+<meta property="og:image" content="https://williamwolf92.github.io/3dndiceroller/assets/og-preview.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="3D&amp;Dice Roller — interactive 3D dice simulator for D&amp;D">
+<meta property="og:site_name" content="3D&amp;Dice Roller">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://williamwolf92.github.io/3dndiceroller/">
+<meta name="twitter:title" content="3D Dungeons &amp; Dragons Dice Roller">
+<meta name="twitter:description" content="Roll any TTRPG die in 3D with realistic physics. Supports d4 through d100, advantage/disadvantage, skills, saving throws and custom roll presets.">
+<meta name="twitter:image" content="https://williamwolf92.github.io/3dndiceroller/assets/og-preview.png">
+<meta name="twitter:image:alt" content="3D&amp;Dice Roller — interactive 3D dice simulator for D&amp;D">
+
+<!-- PWA / Mobile -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="3D&amp;Dice">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="application-name" content="3D&amp;Dice Roller">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="icon" href="assets/icon-192.png">
 <style>
   * {
     margin: 0;
@@ -1061,6 +1099,32 @@
     background-color: #cc0000;
   }
 </style>
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "3D&Dice Roller",
+  "url": "https://williamwolf92.github.io/3dndiceroller/",
+  "description": "A 3D tabletop RPG dice roller with realistic physics for D&D and other TTRPG systems.",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and WebGL",
+  "inLanguage": "en",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "williamwolf92",
+    "url": "https://github.com/williamwolf92"
+  },
+  "image": "https://williamwolf92.github.io/3dndiceroller/assets/og-preview.png"
+}
+</script>
 </head>
 <body>
   <div id="app">
@@ -1627,6 +1691,21 @@
     </div>
   </div>
 
+  <!-- ── Info Modal ──────────────────────────────────────────────────────── -->
+  <div class="modal-overlay" id="info-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title">ℹ️ Information</span>
+        <button class="modal-close" data-modal="info-modal">✕</button>
+      </div>
+      <div class="modal-body" style="padding: 0; overflow: hidden;">
+        <iframe id="info-iframe" src="" data-src="info.html"
+          style="width: 100%; min-height: 68vh; border: none; display: block;"
+          loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import DiceBox from "https://unpkg.com/@3d-dice/dice-box@1.1.4/dist/dice-box.es.min.js";
 
@@ -1820,7 +1899,12 @@
       renderCustomRolls();
       openModal("customrolls-modal");
     });
-
+    document.getElementById("info-btn").addEventListener("click", () => {
+      const iframe = document.getElementById("info-iframe");
+      if (!iframe.getAttribute("src")) iframe.setAttribute("src", iframe.dataset.src);
+      openModal("info-modal");
+    });
+    
     // ── Color picker ──────────────────────────────────────────────────────────
     const colorPicker   = document.getElementById("color-picker");
     const colorSwatch   = document.getElementById("color-swatch");
