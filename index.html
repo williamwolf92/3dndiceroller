@@ -30,7 +30,7 @@
 <meta name="twitter:url" content="https://williamwolf92.github.io/3dndiceroller/">
 <meta name="twitter:title" content="3D Dungeons &amp; Dragons Dice Roller">
 <meta name="twitter:description" content="Roll any TTRPG die in 3D with realistic physics. Supports d4 through d100, advantage/disadvantage, skills, saving throws and custom roll presets.">
-<meta name="twitter:image" content="https://williamwolf92.github.io/3dndiceroller/assets/og-preview.png">
+<meta name="twitter:image" content="https://williamwolf92.github.io/3dndiceroller/assets/icon.png">
 <meta name="twitter:image:alt" content="3D&amp;Dice Roller — interactive 3D dice simulator for D&amp;D">
 
 <!-- PWA / Mobile -->
@@ -135,6 +135,7 @@
     font-weight: 700;
     font-size: 18px;
     text-align: center;
+    width: 75%;
     z-index: 1;
     pointer-events: none;
   }
@@ -144,13 +145,15 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    padding: 8px 18px;
+    padding: 8px 10px;
     transform: translate(-50%, -50%) translateY(20px);
-    font-size: 50px;
+    font-size: 15px;
     font-weight: 700;
     text-align: center;
+    width: max-content;
+    max-width: 70%;
     background-color: rgba(255, 255, 255, 0.85);
-    border-radius: 14px;
+    border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.5);
     z-index: 6;
     pointer-events: none;
@@ -1180,7 +1183,7 @@
   <div id="app">
     <div id="dice-box-wrapper">
       <div id="dice-box"></div>
-      <div id="empty-message">Choose your dices<br>and tap "Roll"</div>
+      <div id="empty-message">The d20 is cursed, tap "Roll" at your own risk.</div>
       <div id="result-panel">
         <div id="result-total"></div>
         <div id="result-detail"></div>
@@ -2300,16 +2303,36 @@
     }
 
     // ── Results ───────────────────────────────────────────────────────────────
+    let natMessages = null;
+
+    async function loadNatMessages() {
+      try {
+        const res = await fetch("assets/nat-text.json");
+        if (res.ok) natMessages = await res.json();
+      } catch (e) {
+        natMessages = null;
+      }
+    }
+    loadNatMessages();
+
+    function pickNatMessage(category, fallback) {
+      const list = natMessages?.[category];
+      if (list && list.length > 0) {
+        return list[Math.floor(Math.random() * list.length)];
+      }
+      return fallback;
+    }
+
     let natToastTimer = null;
-    
+
     function updateNatToast(value) {
       clearTimeout(natToastTimer);
-    natToast.classList.remove("show", "nat-fail", "nat-success");
+      natToast.classList.remove("show", "nat-fail", "nat-success");
       if (value === 1) {
-        natToast.textContent = "Nat. 1";
+        natToast.innerHTML = pickNatMessage("nat1", "Nat. 1").replace(/\n/g, "<br>");
         natToast.classList.add("show", "nat-fail");
       } else if (value === 20) {
-        natToast.textContent = "Nat. 20";
+        natToast.innerHTML = pickNatMessage("nat20", "Nat. 20").replace(/\n/g, "<br>");
         natToast.classList.add("show", "nat-success");
       } else {
         natToast.textContent = "";
@@ -2317,7 +2340,7 @@
       }
       natToastTimer = setTimeout(() => {
         natToast.classList.remove("show");
-      }, 3000);
+      }, 5000);
     }
 
     function showResults(results, mode, modifier) {
