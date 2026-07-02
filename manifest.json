@@ -1,6 +1,6 @@
 {
   "background_color": "#ffffff",
-  "description": "D&amp;amp;D 5e Dice Roller: a free browser-based 3D dice simulator for D&amp;amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics. Supports advantage, disadvantage, skills, saving throws and custom rolls.",
+  "description": "D&amp;D 5e Dice Roller: a free browser-based 3D dice simulator for D&amp;amp;D and tabletop RPGs. Roll d4, d6, d8, d10, d12, d20 and d100 with realistic physics. Supports advantage, disadvantage, skills, saving throws and custom rolls.",
   "dir": "ltr",
   "display": "standalone",
   "name": "D&amp;D 5e Dice Roller",
@@ -13,29 +13,16 @@
     {
       "src": "https://williamwolf92.github.io/dnd5e-dice-roller/assets/icon.png",
       "type": "image/png",
-      "sizes": "300x300",
+      "sizes": "512x512",
       "isSquare": true,
       "isPng": true,
       "isWebp": false,
       "isJpg": false,
-      "width": 300,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
+      "width": 512,
+      "is512x512": true,
+      "is256x256": true,
+      "is192x192": true
     },
-    {
-      "src": "https://williamwolf92.github.io/dnd5e-dice-roller/assets/icon.png",
-      "type": "image/png",
-      "sizes": "300x300",
-      "isSquare": true,
-      "isPng": true,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 300,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
-    }
   ],
   "id": "/dnd5e-dice-roller/",
   "lang": "en"
